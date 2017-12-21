@@ -65,6 +65,11 @@ public class PauseM : MonoBehaviour
             canvasGroupStack.Pop();
 
     }
+    public void Setting()
+    {
+        canvasGroupStack.Push(settingGroup);
+        DisPlayMenu();
+    }
     public void Exit()
     {
 #if UNITY_EDITOR
