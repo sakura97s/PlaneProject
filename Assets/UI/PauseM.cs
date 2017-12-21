@@ -11,18 +11,25 @@ public class PauseM : MonoBehaviour
 {
     [SerializeField]
     private AudioMixerSnapshot paused, unpaused;
+
     [SerializeField]
     private CanvasGroup pauseGroup;
+
     [SerializeField]
     private CanvasGroup settingGroup;
-    private bool isPaused = false ;
+
+    private bool isPaused = false;
+
     private Stack<CanvasGroup> canvasGroupStack = new Stack<CanvasGroup>();
     private List<CanvasGroup> canvasGroupList = new List<CanvasGroup>();
+
     private void Start()
     {
         canvasGroupList.Add(pauseGroup);
-        canvasGroupList.Add(settingGroup); 
+        canvasGroupList.Add(settingGroup);
+        DisPlayMenu();
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -30,7 +37,7 @@ public class PauseM : MonoBehaviour
             Esc();
         }
     }
-    private  void Lowpass()
+    private void Lowpass()
     {
         if (Time.timeScale == 0)
         {
@@ -41,35 +48,42 @@ public class PauseM : MonoBehaviour
             unpaused.TransitionTo(0.1f);
         }
     }
+
     public void Esc()
     {
-        if (!isPaused &&canvasGroupStack .Count ==0)
+        if (!isPaused && canvasGroupStack.Count == 0)
         {
             isPaused = !isPaused;
-            canvasGroupStack.Push(pauseGroup );
+            canvasGroupStack.Push(pauseGroup);
         }
         else
         {
-            if (canvasGroupStack .Count > 0)
+            if (canvasGroupStack.Count > 0)
             {
                 canvasGroupStack.Pop();
             }
         }
         if (canvasGroupStack.Count == 0)
-            DisPlayMenu();
+        {
+            Pause();
+        }
+        DisPlayMenu();
     }
-    public  void Pause()
+
+    public void Pause()
     {
         isPaused = !isPaused;
         if (canvasGroupStack.Count > 0)
             canvasGroupStack.Pop();
-
+        DisPlayMenu();
     }
+
     public void Setting()
     {
         canvasGroupStack.Push(settingGroup);
         DisPlayMenu();
     }
+
     public void Exit()
     {
 #if UNITY_EDITOR
@@ -78,6 +92,7 @@ public class PauseM : MonoBehaviour
         Application.Quit();
 #endif
     }
+
     private void DisPlayMenu()
     {
         foreach (var item in canvasGroupList)
@@ -86,12 +101,12 @@ public class PauseM : MonoBehaviour
             item.interactable = false;
             item.blocksRaycasts = false;
         }
-        if(canvasGroupStack .Count >0)
+        if (canvasGroupStack.Count > 0)
         {
             CanvasGroup cg = canvasGroupStack.Peek();
             cg.alpha = 1;
-            cg .interactable = true ;
-            cg .blocksRaycasts = true ;
+            cg.interactable = true;
+            cg.blocksRaycasts = true;
         }
         Time.timeScale = isPaused ? 0 : 1;
         Lowpass();
