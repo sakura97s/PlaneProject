@@ -3,20 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class LevelDirector : MonoBehaviour {
+public class LevelDirector :PersistentSingleton <LevelDirector>{
     
-    private static LevelDirector instance;
-    public static LevelDirector Instance
-    {
-        get
-        { if (instance == null)
-            {
-                throw new NullReferenceException("no LevelDirector in scence");
-            } return instance;
-        }
-    }
     public  Action GameStartAction;
-    public  Action gameOverAction;
+    public  Action GameOverAction;
     [SerializeField]
     private MainPlane mainPlane;
     [SerializeField]
@@ -46,21 +36,28 @@ public class LevelDirector : MonoBehaviour {
     {
         get { return maxScore; }
     }
-    private MainPlane currentPlane;
 
-    private void Awake()
+    public MainPlane currentPlane { get; private set; }
+
+    protected override void Awake()
     {
-        instance = this;
-        Init();
+           Init();
     }
+
     private void Start()
     {
+        if (GameStartAction != null )
+        {
+            GameStartAction();
+        }
+        if (UIManager.Instance != null)
+        UIManager.Instance.FaderOn(false, 2f);
         StartCoroutine(Decorate());
     }
     private void Init()
     {
         mainPlane = Resources.Load<MainPlane>("Prefabs/Plane");
-        boss = Resources.Load<GameObject>("Prefabs/Enemys/Boss");
+        //boss = Resources.Load<GameObject>("Prefabs/Enemys/Boss");
         data = Resources.Load<PlayerData>("PlayerData");
         maxScore = data.maxScore;
     }
@@ -74,6 +71,7 @@ public class LevelDirector : MonoBehaviour {
     private void OnMainPlaneDead()
     {
         playerLifeCount--;
+        //print(PlayerLifeCount);
         if (PlayerLifeCount > 0)
         {
             StartCoroutine(Decorate());
@@ -82,9 +80,9 @@ public class LevelDirector : MonoBehaviour {
     }
     public void GameOver()
     {
-        if (gameOverAction !=null)
+        if (GameOverAction !=null)
 
-        gameOverAction ();
+        GameOverAction ();
     }
     private	void Update () {
 		

@@ -12,11 +12,11 @@ public class GameOverC : MonoBehaviour
     void Start()
     {
         director = LevelDirector.Instance;
-        director.gameOverAction += DisplayText;
+        director.GameOverAction += DisplayText;
         gameOverGroup.alpha = 0;
     }
     public  void DisplayText()
     {
-        gameOverGroup.alpha = 1;
+        gameOverGroup.alpha = 1; 
     }
 }

@@ -31,7 +31,6 @@ public class MainPlane : MonoBehaviour, IHealth {
         trans = GetComponent<Transform>();
         Audio = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
-
         coll = GetComponent<Collider2D>();
         coll.enabled = false;
         StartCoroutine(CollDecorate ());
@@ -102,16 +101,15 @@ public class MainPlane : MonoBehaviour, IHealth {
     public void Damage(int val)
     {
         health -= val;
-        
     }
     public void DestroySelf()
     {
         if (OnDeadEvent != null)
         {
             Instantiate(boom, trans.position, Quaternion.identity);
-            print("玩家死亡");
             OnDeadEvent();
             Destroy(this.gameObject);
+            print("PlayerLife："+LevelDirector.Instance.PlayerLifeCount); 
         }
     }
 }
