@@ -9,7 +9,7 @@ public class UIManager : PersistentSingleton<UIManager>
     private Image fader;
 	protected override  void Awake()
     {
-        base.Awake();
+        base.Awake();   
         if (fader != null)
             fader.gameObject.SetActive(false);
     } 

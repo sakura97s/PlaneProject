@@ -51,7 +51,8 @@ public class LevelDirector :PersistentSingleton <LevelDirector>{
             GameStartAction();
         }
         if (UIManager.Instance != null)
-        UIManager.Instance.FaderOn(false, 2f);
+        UIManager.Instance.FaderOn(false, 1f);
+
         StartCoroutine(Decorate());
     }
     private void Init()

@@ -24,13 +24,17 @@ public class MuneM : MonoBehaviour
 
     private void Start()
     {
-        canvasGroupStack.Push(muneGroup);
+        UIManager.Instance.FaderOn(false, 2F);
+        
         canvasGroupList.Add(muneGroup);
         canvasGroupList.Add(optionGroup);
         canvasGroupList.Add(creditGroup);
+
+        canvasGroupStack.Push(muneGroup);
+
         DisPlayMenu();
 
-        UIManager.Instance.FaderOn(false, 2F);
+        
     }
 
     private void Update()
@@ -54,9 +58,7 @@ public class MuneM : MonoBehaviour
         DisPlayMenu();
     }
     public void StartGame()
-    {
-
-        UIManager.Instance.FaderOn(true, 1f);
+    {       
         StartCoroutine(LoadGameScene());
     }
     public void Credit()
@@ -91,6 +93,7 @@ public class MuneM : MonoBehaviour
     }
     private IEnumerator LoadGameScene()
     {
+        UIManager.Instance.FaderOn(true, 1f);
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(loadSceneName);
     }

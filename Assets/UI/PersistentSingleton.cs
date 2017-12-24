@@ -8,7 +8,9 @@ public class PersistentSingleton<T> : MonoBehaviour where T : Component
 
     public static T Instance
     {
-        get { if(instance ==null )
+        get
+        {
+            if (instance ==null )
             {
                 instance = FindObjectOfType<T>();
                 if(instance ==null)
@@ -20,12 +22,13 @@ public class PersistentSingleton<T> : MonoBehaviour where T : Component
             return instance;
         }
     }
+
 	protected virtual void Awake()
     {
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(transform.gameObject);
+            //DontDestroyOnLoad(transform.gameObject);
         }
         else
         {
