@@ -22,16 +22,16 @@ public class Monster : MonoBehaviour {
    }
     private void Start()
     {
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 8);
     }
     private void Update()
         {
             if (i >= 1)
             {
-                i = 0;
+                i = 0;               
                 MonsterBullet();
             }
-            i += Time.deltaTime;
+            i += Time.deltaTime/4;
 
         trans.Translate(Vector3.down * Time.deltaTime * speed);
 }
@@ -46,8 +46,11 @@ public class Monster : MonoBehaviour {
         }
     }
     void MonsterBullet()
-    {
-        Instantiate(monsterBullet, trans.position,Quaternion .identity  );
+    {for (int j = 0; j <= 360; j += 45)
+        {
+            Quaternion a = Quaternion.Euler(0, 0, j);
+            Instantiate(monsterBullet, transform.position, a);
+        }
     }
 }
 

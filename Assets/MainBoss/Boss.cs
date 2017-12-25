@@ -49,7 +49,7 @@ public class Boss : MonoBehaviour,IHealth
             i = 0;
             Monster();
         }
-        i += Time.deltaTime/2;
+        i += Time.deltaTime/4;
         if (transform .position .x >MaxX )
         {
             direction = Vector3.left;

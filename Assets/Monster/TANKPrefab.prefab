@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 58481858994694408}
   - component: {fileID: 50247967783705662}
   m_Layer: 0
-  m_Name: MonsterPrefab
+  m_Name: TANKPrefab
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

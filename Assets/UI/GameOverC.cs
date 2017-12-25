@@ -17,6 +17,12 @@ public class GameOverC : MonoBehaviour
     }
     public  void DisplayText()
     {
-        gameOverGroup.alpha = 1; 
+        gameOverGroup.alpha = 1;
+        StartCoroutine(GameOver()); 
+    }
+    private IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(1f);
+        Time.timeScale = 0;
     }
 }

@@ -15,7 +15,7 @@ public class MainPlane : MonoBehaviour, IHealth {
     private float MaxY;
     private float MinY;
     private float MinX;
-    private float i = 1;
+   
     private Transform trans;
     private Collider2D coll;
     private Vector3 vectorSpeed;
@@ -53,14 +53,17 @@ public class MainPlane : MonoBehaviour, IHealth {
         {
             Fire1();
         }
+        //float i = 1;
         if (Input.GetButton("Fire1"))
         {
-            if (i >= 1)
-            {
-                i = 0;
-                Fire1();
-            }
-            i += Time.deltaTime*5;
+            //    if (i >= 1)
+            //    {
+            //        i = 0;
+            //        Fire1();
+            //    }
+            //    i += Time.deltaTime*5;
+            FireStart();
+            //StartCoroutine(FireStart ());
         }
 
         Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
@@ -79,11 +82,30 @@ public class MainPlane : MonoBehaviour, IHealth {
     private void Move(Vector3 direction)
     {
         trans.Translate(direction * Time.deltaTime * speed);
-    } 
+    }
+    float fireTimer;
+    float fireRate = 0.2f;  
        private void Fire1()
-    {
+    { if (LevelDirector.Instance.PlayerLifeCount <= 0) return;
         Instantiate(bullet, trans.position, Quaternion.identity);
         Audio.Play();
+        fireTimer = 0;
+    }
+    //private IEnumerator FireStart()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+    //    Instantiate(bullet, trans.position, Quaternion.identity);
+    //}
+    private void FireStart()
+    {
+        if (LevelDirector.Instance.PlayerLifeCount <= 0) return;
+        fireTimer += Time.deltaTime;
+        if (fireTimer > fireRate)
+        {
+            Instantiate(bullet, trans.position, Quaternion.identity);
+            fireTimer = 0;
+            Audio.Play();
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -109,7 +131,7 @@ public class MainPlane : MonoBehaviour, IHealth {
             Instantiate(boom, trans.position, Quaternion.identity);
             OnDeadEvent();
             Destroy(this.gameObject);
-            print("PlayerLife："+LevelDirector.Instance.PlayerLifeCount); 
+    
         }
     }
 }
